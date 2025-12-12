@@ -1,4 +1,3 @@
-# agente_imagem.py
 import os
 import requests
 from datetime import datetime
@@ -13,24 +12,32 @@ client = OpenAI()
 
 def criar_prompt_visual(nicho, objetivo):
     """
-    Usa um Agente Agno (Diretor de Arte) para escrever um prompt técnico para o DALL-E.
+    Usa um Agente Agno (Diretor de Arte Sênior) para escrever um prompt TÉCNICO e VISCERAL para o DALL-E 3.
     """
     diretor_arte = Agent(
-        model=OpenAIChat(id="gpt-4o-mini"),
-        description="Você é um Diretor de Arte premiado especialista em fotografia para redes sociais corporativas.",
+        model=OpenAIChat(id="gpt-4o-mini"), 
+        description="You are an award-winning Photography Director for high-end luxury brands (like Rolex, Forbes, Architectural Digest). You hate stock photos.",
         instructions=[
-            "Sua tarefa é criar um PROMPT VISUAL para uma IA geradora de imagens (DALL-E 3).",
-            "O prompt deve ser em INGLÊS para melhor qualidade.",
-            "Estilo: Fotorealista, Cinematográfico, Iluminação de Estúdio, 4k.",
-            "Não inclua texto na imagem.",
-            "Evite clichês de banco de imagens (pessoas apertando as mãos, sorrisos falsos).",
-            "Foque em metáforas visuais ou ambientes profissionais de alto padrão.",
-            "Retorne APENAS o texto do prompt, sem introduções."
+            "YOUR TASK: Create a detailed, photographic prompt in ENGLISH for DALL-E 3 based on the user's niche and objective.",
+            
+            "--- STYLE GUIDELINES (CRITICAL) ---",
+            "1. VISUAL STYLE: Documentary-style editorial photography. Use terms like 'Shot on film', 'Grain', 'Natural texture'.",
+            "2. CAMERA/LENS: Specify the look. E.g., '85mm lens with shallow depth of field' (creates blurry background focus), or 'Leica M6'.",
+            "3. LIGHTING: NEVER use flat lighting. Use 'Moody lighting', 'Chiaroscuro' (dramatic contrast), 'Golden hour light streaming through a window', or 'Cinematic shadows'.",
+            "4. COMPOSITION: Rule of thirds, minimalist, or intense close-up (macro).",
+            
+            "--- CONTENT GUIDELINES ---",
+            "5. METAPHOR OVER LITERAL: If the objective is about 'losing time/money', DO NOT show a stressed person looking at a clock. Show a luxurious hourglass on an oak desk with sand running out fast, with a blurry city skyline in the background.",
+            "6. SETTING: The environment must scream 'High Ticket'. Luxurious offices, modern architecture, minimalist studios, dark wood, marble, sophisticated textures.",
+            "7. NEGATIVE CONSTRAINTS: NO text, NO generic smiling people shaking hands, NO sterile 3D renders, NO cartoonish colors. Keep it serious and sophisticated.",
+            
+            "--- FINAL OUTPUT FORMAT ---",
+            "Return ONLY the raw English prompt text. No introductions."
         ],
         markdown=False
     )
     
-    msg = f"Crie um prompt visual para um post focado em: {nicho}. O conceito do post é: {objetivo}."
+    msg = f"PROJECT CONTEXT:\nTarget Niche: {nicho}\nObjective of the visual: {objetivo}\n\nCreate the DALL-E 3 prompt now, focusing on a sophisticated, dramatic, and metaphorical image."
     response = diretor_arte.run(msg)
     return response.content
 
@@ -38,20 +45,21 @@ def gerar_imagem(prompt_visual):
     """
     Envia o prompt para o DALL-E 3 e retorna a URL da imagem.
     """
-    print(f"\n🎨 Desenhando: {prompt_visual[:100]}...")
+    print(f"\n🎨 Desenhando no DALL-E 3 com o novo prompt de alta performance...")
+    # print(f"DEBUG PROMPT: {prompt_visual}") # Descomente se quiser ver o prompt inglês no terminal
     
     try:
         response = client.images.generate(
             model="dall-e-3",
             prompt=prompt_visual,
             size="1024x1024",
-            quality="standard",
+            quality="standard", 
             n=1,
         )
         image_url = response.data[0].url
         return image_url
     except Exception as e:
-        print(f"Erro ao gerar imagem: {e}")
+        print(f"Erro crítico ao gerar imagem: {e}")
         return None
 
 def download_imagem(url, nome_arquivo):
@@ -60,33 +68,32 @@ def download_imagem(url, nome_arquivo):
     """
     if not url: return
     
-    response = requests.get(url)
-    if response.status_code == 200:
-        with open(nome_arquivo, 'wb') as f:
-            f.write(response.content)
-        print(f"✅ Imagem salva com sucesso: {nome_arquivo}")
-    else:
-        print("❌ Erro ao baixar a imagem.")
+    try:
+        response = requests.get(url, timeout=30) 
+        if response.status_code == 200:
+            with open(nome_arquivo, 'wb') as f:
+                f.write(response.content)
+            print(f"✅ Imagem salva com sucesso: {nome_arquivo}")
+        else:
+            print(f"❌ Erro ao baixar a imagem. Status: {response.status_code}")
+    except Exception as e:
+         print(f"❌ Erro de conexão no download: {e}")
 
-# --- BLOCO DE TESTE ---
 if __name__ == "__main__":
-    print("--- 🎨 Iniciando Teste de Imagem (Isso custa aprox $0.04) ---")
+    print("--- 🎨 Testando NOVO Diretor de Arte (Custo ~ $0.04) ---")
     
-    nicho_teste = "Advogados Tributaristas"
-    objetivo_teste = "Medo de perder prazos e clientes por desorganização"
+    nicho_teste = "Advogados Tributaristas de Alto Padrão"
+    objetivo_teste = "Transmitir a sensação de urgência e dinheiro sendo perdido por falta de gestão."
     
-    print("1. Criando conceito visual...")
+    print("1. Criando conceito visual PRO...")
     prompt_dalle = criar_prompt_visual(nicho_teste, objetivo_teste)
-    print(f"--> Prompt Gerado (Diretor): {prompt_dalle}")
+    print(f"\n--> Prompt Gerado (Inglês): {prompt_dalle}\n")
     
-    url_imagem = gerar_imagem(prompt_dalle)
-    
-    if url_imagem:
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        nome_final = f"teste_imagem_{timestamp}.png"
-        download_imagem(url_imagem, nome_final)
-        
-        try:
-            os.startfile(nome_final) 
-        except:
-            pass
+    # as linhas abaixo geram imagem real (gasta créditos)
+    # url_imagem = gerar_imagem(prompt_dalle)
+    # if url_imagem:
+    #     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    #     nome_final = f"teste_imagem_pro_{timestamp}.png"
+    #     download_imagem(url_imagem, nome_final)
+    #     try: os.startfile(nome_final) 
+    #     except: pass
