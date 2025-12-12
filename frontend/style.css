@@ -1,0 +1,251 @@
+:root {
+    --bg-dark: #050505;
+    --bg-gradient: radial-gradient(circle at 50% -20%, #2a0a40, #050505 60%);
+    --glass-bg: rgba(255, 255, 255, 0.03); /* Vidro super sutil */
+    --glass-border: rgba(138, 43, 226, 0.2);
+    --primary-neon: #a855f7; /* Roxo Neon */
+    --secondary-neon: #d946ef; /* Rosa Neon */
+    --text-main: #ffffff;
+    --text-muted: #9ca3af;
+    --input-bg: rgba(0, 0, 0, 0.4);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-dark);
+    background-image: var(--bg-gradient);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Centraliza verticalmente */
+    padding: 20px;
+}
+
+.main-container {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    animation: fadeIn 0.8s ease-out;
+}
+
+header {
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 0.5rem;
+}
+
+.highlight {
+    background: -webkit-linear-gradient(0deg, var(--primary-neon), var(--secondary-neon));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+}
+
+header p {
+    color: var(--text-muted);
+    font-size: 1rem;
+}
+
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+    text-align: left; 
+}
+
+label {
+    display: block; 
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+input[type="text"] {
+    width: 100%;
+    background: var(--input-bg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 16px;
+    color: white;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+input[type="text"]:focus {
+    border-color: var(--primary-neon);
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.2);
+    transform: translateY(-2px);
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+button {
+    width: 100%;
+    padding: 18px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary {
+    background: linear-gradient(90deg, var(--primary-neon), var(--secondary-neon));
+    color: white;
+    box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(168, 85, 247, 0.6);
+}
+
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+.btn-secondary {
+    background: transparent;
+    border: 1px solid var(--primary-neon);
+    color: var(--primary-neon);
+    margin-top: 15px;
+}
+
+.btn-secondary:hover {
+    background: rgba(168, 85, 247, 0.1);
+}
+
+.result-section h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: var(--secondary-neon);
+}
+
+.output-box {
+    background: rgba(0,0,0,0.3);
+    padding: 20px;
+    border-radius: 12px;
+    line-height: 1.6;
+    color: #e0e0e0;
+    white-space: pre-wrap; 
+    border-left: 3px solid var(--primary-neon);
+}
+
+
+.image-container img {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(255,255,255,0.1);
+    border-left-color: var(--primary-neon);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin { 100% { transform: rotate(360deg); } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+
+/* --- SELETOR DE MODO (TOGGLE) --- */
+.mode-selector {
+    margin-bottom: 1.5rem;
+}
+
+.selector-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+}
+
+.toggle-container {
+    display: flex;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+    padding: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+}
+
+/* Esconde as bolinhas do input radio padrão */
+.toggle-container input[type="radio"] {
+    display: none;
+}
+
+/* O Botão Desligado */
+.toggle-btn {
+    flex: 1;
+    text-align: center;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    transition: all 0.3s ease;
+}
+
+.toggle-btn:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* O Botão Ligado (Quando o input associado está checked) */
+input[type="radio"]:checked + label {
+    background: var(--primary-neon); /* Roxo Neon */
+    color: white;
+    box-shadow: 0 2px 10px rgba(168, 85, 247, 0.4);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+@media (max-width: 480px) {
+    body { padding: 15px; }
+    .glass-panel { padding: 1.5rem; }
+    header h1 { font-size: 1.8rem; }
+}
+
+.hidden { display: none; }
+
+

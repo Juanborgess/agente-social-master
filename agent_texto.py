@@ -1,46 +1,46 @@
 from agno.agent import Agent
 from agno.models.openai import OpenAIChat
 from dotenv import load_dotenv
-import prompts 
+import prompts  
 
 load_dotenv()
 
-def gerar_copy_social(nicho, produto, objetivo):
+def gerar_copy_social(nicho, produto, objetivo, tipo="single"):
     """
-    Função modular que cria o agente, executa a tarefa e retorna a resposta.
+    Função que decide qual 'cérebro' usar com base no tipo de post.
+    tipo: 'single' (Padrão) ou 'carousel'
     """
     
+    if tipo == "carousel":
+        print(f"🔄 Ativando modo CARROSSEL para: {nicho}")
+        sistema = prompts.CAROUSEL_SYSTEM_PROMPT
+        instrucao_extra = "Formato obrigatório: CARROSSEL DE 5 A 7 SLIDES com instruções de design slide a slide."
+    else:
+        print(f"⚡ Ativando modo POST ÚNICO para: {nicho}")
+        sistema = prompts.SOCIAL_MEDIA_SYSTEM_PROMPT
+        instrucao_extra = "Formato obrigatório: POST ÚNICO (Imagem/Reels) com framework PAS."
+
     user_request = f"""
-    CONTEXTO DO PEDIDO:
+    CONTEXTO DO PROJETO:
     - Nicho Alvo: {nicho}
-    - Produto Ofertado: {produto}
-    - Objetivo do Post: {objetivo}
+    - Produto/Serviço: {produto}
+    - Objetivo: {objetivo}
     
-    Crie o roteiro agora seguindo suas instruções de sistema.
+    {instrucao_extra}
+    
+    Siga estritamente a estrutura de resposta (JSON implícito) definida no seu System Prompt.
     """
 
-    # Configuração do Agente
     agent = Agent(
         model=OpenAIChat(id="gpt-4o-mini"), 
-        description=prompts.SOCIAL_MEDIA_SYSTEM_PROMPT,
+        description=sistema,
         markdown=True
     )
 
-    # Execução
     response = agent.run(user_request)
     return response.content
 
-# --- BLOCO DE TESTE INTERNO ---
-# Este bloco 'if' só roda se eu executar este arquivo diretamente.
-# Se este arquivo for importado por outro (no futuro), isso não roda.
 if __name__ == "__main__":
-    print("--- 🧪 Iniciando Teste de Texto (Modo Econômico) ---")
-    
-    resultado = gerar_copy_social(
-        nicho="Advogados Tributaristas",
-        produto="Automação de Atendimento com IA",
-        objetivo="Mostrar que eles perdem clientes por demora no WhatsApp"
-    )
-    
-    print("\n" + resultado)
-    print("\n--- ✅ Fim do Teste ---")
+    print("--- 🧪 Testando Modo Carrossel ---")
+    res = gerar_copy_social("Advogados", "Consultoria", "Vender mais", tipo="carousel")
+    print(res)

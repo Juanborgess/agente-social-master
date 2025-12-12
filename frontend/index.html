@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agente Social Media Master | High Ticket AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="main-container">
+        <header>
+            <h1>🚀 Agente Social <span class="highlight">Master</span></h1>
+            <p>Sua estratégia de conteúdo High Ticket, automatizada.</p>
+        </header>
+
+        <section class="input-section glass-panel">
+            <div class="input-group">
+                <label for="nicho">1. Nicho Alvo</label>
+                <input type="text" id="nicho" placeholder="Ex: Advogados Tributaristas">
+            </div>
+            
+            <div class="input-group">
+                <label for="produto">2. Produto/Serviço Ofertado</label>
+                <input type="text" id="produto" placeholder="Ex: Automação de Atendimento com IA">
+            </div>
+            
+            <div class="input-group">
+                <label for="objetivo">3. Objetivo Estratégico do Post</label>
+                <input type="text" id="objetivo" placeholder="Ex: Gerar medo de perder dinheiro por lentidão">
+            </div>
+
+            <div class="mode-selector">
+                <p class="selector-label">Formato do Conteúdo:</p>
+                <div class="toggle-container glass-panel-sm">
+                    <input type="radio" id="modeSingle" name="tipoConteudo" value="single" checked>
+                    <label for="modeSingle" class="toggle-btn">⚡ Post Único</label>
+
+                    <input type="radio" id="modeCarousel" name="tipoConteudo" value="carousel">
+                    <label for="modeCarousel" class="toggle-btn">infinity Carrossel</label>
+                </div>
+            </div>
+
+           <!-- <button id="btnGerarTexto" class="btn-primary neon-button">⚡ Gerar Estratégia</button> -->
+
+            <button id="btnGerarTexto" class="btn-primary neon-button">⚡ Gerar Estratégia de Texto</button>
+        </section>
+
+        <section id="resultTextoSection" class="result-section glass-panel hidden">
+            <h2>📝 Roteiro Sugerido</h2>
+            <div id="textoOutput" class="output-box"></div>
+            
+            <div class="image-controls">
+                <p>Gostou do roteiro? Deseja gerar o visual?</p>
+                <button id="btnGerarImagem" class="btn-secondary">🎨 Aprovar e Gerar Imagem (DALL-E 3)</button>
+            </div>
+        </section>
+
+        <section id="resultImagemSection" class="result-section glass-panel hidden">
+            <h2>🖼️ Conceito Visual</h2>
+            <div id="imageLoading" class="hidden">
+                <div class="spinner"></div>
+                <p>O Diretor de Arte está desenhando... (Aguarde ~30s)</p>
+            </div>
+            <div id="imageOutput" class="image-container"></div>
+        </section>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
